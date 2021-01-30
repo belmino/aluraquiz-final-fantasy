@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const Widget = styled.div`
     margin-top: 24px;
@@ -20,7 +20,6 @@ const Widget = styled.div`
         line-height: 1;
     }
 `;
-
 
 Widget.Header = styled.header`
     display: flex;

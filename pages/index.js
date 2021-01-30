@@ -1,15 +1,14 @@
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
 
-import  db from "../db.json";
-import Widget from '../src/components/Widget'
-import Footer from '../src/components/Footer'
-import GitHubCorner from '../src/components/GitHubCorner'
-import QuizBackground from '../src/components/QuizBackground'
-
-const Title = styled.h1`
-  font-size: 50px;
-  color: ${({ theme }) => theme.colors.primary};
-`
+import db from '../db.json';
+import Widget from '../src/components/Widget';
+import Footer from '../src/components/Footer';
+import GitHubCorner from '../src/components/GitHubCorner';
+import QuizBackground from '../src/components/QuizBackground';
+import QuizLogo from '../src/components/QuizLogo';
 
 
 export const QuizContainer = styled.div`
@@ -23,26 +22,48 @@ export const QuizContainer = styled.div`
   }
 `;
 
-
 export default function Home() {
+  const router = useRouter();
+  const [name, setName] = React.useState('');
   return (
     <QuizBackground backgroundImage={db.bg}>
+      <Head>
+        <title>AluraQuiz - Final Fantasy 7</title>
+      </Head>
       <QuizContainer>
+        <QuizLogo />
         <Widget>
           <Widget.Header>
-            <h1>My Quiz</h1>
+            <h1>Final Fantasy VII</h1>
           </Widget.Header>
           <Widget.Content>
-            <p>lorem</p>
+          <form onSubmit={function (infosDoEvento) {
+              infosDoEvento.preventDefault();
+              router.push(`/quiz?name=${name}`);
+              console.log('Fazendo uma submissão por meio do react');
+            }}
+            >
+              <input
+                onChange={function (infosDoEvento) {
+                  console.log(infosDoEvento.target.value);
+                  // State
+                  // name = infosDoEvento.target.value;
+                  setName(infosDoEvento.target.value);
+                }}
+                placeholder="Diz ai seu nome"
+              />
+              <button type="submit" disabled={name.length === 0}>
+                Jogar
+                {name}
+              </button>
+            </form>
           </Widget.Content>
         </Widget>
 
-        <Widget>
-
-        </Widget>
+        <Widget />
         <Footer />
       </QuizContainer>
       <GitHubCorner projectUrl="https://github.com/belmino" />
     </QuizBackground>
-  )
+  );
 }
